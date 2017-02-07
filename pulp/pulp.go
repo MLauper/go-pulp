@@ -26,14 +26,8 @@ import (
 	"net/url"
 	"strings"
 	"time"
-
-	// comment the std libs as they do not support InsecureSkipVerify
-	// https://github.com/golang/go/issues/5742
-	// replace them with a fixed version
-	// "net/http"
-  // "crypto/tls"
-	"github.com/Azure/azure-sdk-for-go/core/http"
-	"github.com/Azure/azure-sdk-for-go/core/tls"
+	"net/http"
+  	"crypto/tls"
 )
 
 const (
