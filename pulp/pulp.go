@@ -18,16 +18,16 @@ package pulp
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"github.com/google/go-querystring/query"
 	"io"
 	"io/ioutil"
+	"net/http"
 	"net/url"
 	"strings"
 	"time"
-	"net/http"
-  	"crypto/tls"
 )
 
 const (
@@ -37,13 +37,13 @@ const (
 )
 
 type Client struct {
-	client     					*http.Client
-	DisableSsl       		bool
-	InsecureSkipVerify 	bool
-	baseURL   					*url.URL
-	UserAgent 					string
-	apiUser   					string
-	apiPasswd 					string
+	client             *http.Client
+	DisableSsl         bool
+	InsecureSkipVerify bool
+	baseURL            *url.URL
+	UserAgent          string
+	apiUser            string
+	apiPasswd          string
 
 	// Services used for talking to different parts of the Pulp API.
 	Repositories *RepositoriesService
@@ -59,26 +59,26 @@ func NewClient(host string, User string, Passwd string, DisableSsl bool, Insecur
 
 	ssl := &tls.Config{}
 	if InsecureSkipVerify {
-		ssl.InsecureSkipVerify =  true
+		ssl.InsecureSkipVerify = true
 	}
 
 	transport := &http.Transport{
-		TLSClientConfig: 			 ssl,
+		TLSClientConfig: ssl,
 	}
 
 	if httpClient == nil {
 		httpClient = &http.Client{
-			Transport: 	transport,
+			Transport: transport,
 			// Timeout:		time.Duration(1000) * time.Millisecond,
 		}
 	}
 
 	client = &Client{
-		client:    					httpClient,
-		UserAgent: 					userAgent,
-		apiUser:   					User,
-		apiPasswd: 					Passwd,
-		DisableSsl:   		 	DisableSsl,
+		client:             httpClient,
+		UserAgent:          userAgent,
+		apiUser:            User,
+		apiPasswd:          Passwd,
+		DisableSsl:         DisableSsl,
 		InsecureSkipVerify: InsecureSkipVerify,
 	}
 
